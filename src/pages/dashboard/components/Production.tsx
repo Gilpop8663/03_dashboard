@@ -194,7 +194,7 @@ export default function Production() {
     <Container>
       {DATA &&
         DATA.requests.map((item) => (
-          <ProductInfoBox>
+          <ProductInfoBox key={item.title}>
             <Wrapper>
               <CounselingList>
                 <Title>{item.title}</Title>

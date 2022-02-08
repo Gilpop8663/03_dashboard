@@ -61,7 +61,7 @@ const Label = styled.label`
 
 interface IFormProps {
   title: string;
-  data: string[];
+  data: { id: number; value: string }[];
   name: string;
   check: boolean;
 }
@@ -69,6 +69,9 @@ interface IFormProps {
 function FormFilter({ title, data, name, check }: IFormProps) {
   const [click, setClick] = useState(false);
   const [some, setSome] = useState(['']);
+  const [test, setTest] = useState([{ id: 99, value: 'str' }]);
+
+  // const onChangeMethod = (v: IMethodProps) => { if (method.includes(v.value)) { setMethod(method.filter((e) => e !== v.value)); } else { const arr = []; arr.push(v); arr.sort((a, b) => b.id - a.id); setMethod([...method, ...arr.map((e) => e.value)]); } };
 
   useEffect(() => {
     if (check === true) {
@@ -79,6 +82,32 @@ function FormFilter({ title, data, name, check }: IFormProps) {
   const onOpenClick = () => {
     setClick((prev) => !prev);
   };
+  const onFilterTwoClick = (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
+    const text = e.currentTarget.value;
+
+    setTest((old) => {
+      const findIndex = data.findIndex((item) => item.value === text);
+      if (test.length === 0) {
+        return [{ id: findIndex, value: text }];
+      } else {
+        const removeIndex = test.findIndex((item) => item.value === text);
+        if (removeIndex !== -1) {
+          const newTest = [
+            ...old.slice(0, removeIndex),
+            ...old.slice(removeIndex + 1),
+          ];
+          const sortTest = newTest.sort((a, b) => a.id - b.id);
+          return sortTest;
+        }
+        const newTest = [...old, { id: findIndex, value: text }];
+        const sortTest = newTest.sort((a, b) => a.id - b.id);
+        return sortTest;
+      }
+    });
+  };
+  console.log(test);
   const onFilterClick = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     const text = e.currentTarget.value;
     setSome((old) => {
@@ -113,15 +142,14 @@ function FormFilter({ title, data, name, check }: IFormProps) {
           <SelectBox>
             {data &&
               data.map((item) => (
-                <Label key={item}>
+                <Label key={item.value}>
                   <Input
                     type="checkbox"
-                    value={item}
+                    value={item.value}
                     name={name}
-                    defaultChecked={some.includes(item)}
-                    onClick={(e) => onFilterClick(e)}
+                    onClick={(e) => onFilterTwoClick(e)}
                   />
-                  {item}
+                  {item.value}
                 </Label>
               ))}
           </SelectBox>

@@ -28,6 +28,19 @@ const Img = styled.img`
   height: 16px;
 `;
 
+const FRONTDATA = [
+  { id: 0, value: '밀링' },
+  { id: 1, value: '선반' },
+];
+
+const BACKDATA = [
+  { id: 0, value: '알루미늄' },
+  { id: 1, value: '탄소강' },
+  { id: 2, value: '구리' },
+  { id: 3, value: '합금강' },
+  { id: 4, value: '강철' },
+];
+
 export default function AllFilter() {
   const [check, setCheck] = useState(false);
   const onClick = () => {
@@ -42,15 +55,17 @@ export default function AllFilter() {
     <FilterBox action="/requests" method="get">
       <FormWrapper>
         <FormFilter
+          key={FRONTDATA.length}
           title="가공방식"
           name="method"
-          data={['밀링', '선반']}
+          data={FRONTDATA}
           check={check}
         />
         <FormFilter
+          key={BACKDATA.length}
           title="재료"
           name="material"
-          data={['알루미늄', '탄소강', '구리', '합금강', '강철']}
+          data={BACKDATA}
           check={check}
         />
         <FilterReset onClick={onClick}>
