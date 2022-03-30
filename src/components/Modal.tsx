@@ -29,6 +29,13 @@ export default function Modal() {
   const toggleModal = () => {
     setModal(!modal);
   };
+  const disabledModal = () => {
+    setModal(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', disabledModal);
+  }, []);
 
   return (
     <>

@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
-import { useRequestApi, IRequestInfoProps } from '../../hooks';
 import { Card, Menu } from '../../components';
 import { DashboardStyle } from 'assets/styles';
 import Nav from '../../components/Nav';
 import Header from 'components/Header';
 import { NoResults } from 'components/NoResults';
+import { useQuery } from 'react-query';
+import { getData } from 'utils/api';
+import { IRequestInfoProps } from 'utils/interface';
+
 const { Container, Grid } = DashboardStyle;
 
 export default function Dashboard() {
-  const [data, setData] = useState<Array<IRequestInfoProps>>([]);
+  const [refetch, setRefetch] = useState(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [params, setParams] = useState<{
     method?: string;
@@ -16,21 +19,18 @@ export default function Dashboard() {
     status?: string;
   }>({});
 
-  const apiParams = {
-    url: 'https://dry-hollows-03672.herokuapp.com/requests',
-    method: 'GET',
-    params: {},
-  };
-  const { response, onApiRequest } = useRequestApi(apiParams);
+  const { data, isLoading } = useQuery(
+    'query',
+    () => getData(params.method, params.material, params.status),
+    { refetchInterval: refetch && 10 }
+  );
 
   useEffect(() => {
-    onApiRequest({ ...apiParams, params });
+    setRefetch(true);
+    setTimeout(() => {
+      setRefetch(false);
+    }, 100);
   }, [params]);
-
-  useEffect(() => {
-    if (!response) return;
-    setData(response.data);
-  }, [response]);
 
   return (
     <>
@@ -41,12 +41,14 @@ export default function Dashboard() {
           setParams={setParams}
           setShowMenu={setShowMenu}
         />
-        <Grid>
-          {data.map((data: IRequestInfoProps) => (
-            <Card key={data.id} data={data} />
-          ))}
-        </Grid>
-        {!data.length && <NoResults />}
+        {!isLoading && (
+          <Grid>
+            {data?.map((data: IRequestInfoProps) => (
+              <Card key={data.id} data={data} />
+            ))}
+          </Grid>
+        )}
+        {!isLoading && !data.length && <NoResults />}
         {showMenu && <Menu />}
       </Container>
     </>
