@@ -137,6 +137,10 @@ const CheckBox = styled.input`
   border-radius: 2px;
 `;
 
+const Label = styled.label`
+  cursor: pointer;
+`;
+
 const HeaderStyle = {
   Title,
   SubTitle,
@@ -153,6 +157,7 @@ const HeaderStyle = {
   CheckBoxWrapper,
   CheckBox,
   Img,
+  Label,
 };
 
 export default HeaderStyle;

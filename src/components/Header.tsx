@@ -35,6 +35,7 @@ const {
   CheckBoxWrapper,
   CheckBox,
   Img,
+  Label,
 } = HeaderStyle;
 
 export default function Header({ params, setParams, setShowMenu }: IProps) {
@@ -69,15 +70,18 @@ export default function Header({ params, setParams, setShowMenu }: IProps) {
     setShowMethod(false);
   };
 
+  const disabledShow = () => {
+    setShowMaterial(false);
+    setShowMethod(false);
+  };
+
   function onChangeMethod(i: number) {
     if (method.includes(i)) {
       const arr = method.filter((e) => e !== i);
-      arr.sort();
       setMethod(arr);
     } else {
       const arr = [...method];
       arr.push(i);
-      arr.sort();
       setMethod(arr);
     }
   }
@@ -85,12 +89,10 @@ export default function Header({ params, setParams, setShowMenu }: IProps) {
   function onChangeMaterial(i: number) {
     if (material.includes(i)) {
       const arr = material.filter((e) => e !== i);
-      arr.sort();
       setMaterial(arr);
     } else {
       const arr = [...material];
       arr.push(i);
-      arr.sort();
       setMaterial(arr);
     }
   }
@@ -184,35 +186,39 @@ export default function Header({ params, setParams, setShowMenu }: IProps) {
         </RightInnerFlex>
       </DropDownWrapper>
       {showMethod && (
-        <CheckBoxContainer>
+        <CheckBoxContainer onMouseLeave={disabledShow}>
           {Method.map((e, i) => (
             <CheckBoxWrapper key={i}>
               <CheckBox
                 type="checkbox"
-                id="scales"
+                id={`scales${e}`}
+                value={e}
                 name="scales"
                 defaultChecked={method.includes(i)}
                 onClick={() => onChangeMethod(i)}
               />
-              <label htmlFor="scales">{e}</label>
+              <Label htmlFor={`scales${e}`}>{e}</Label>
             </CheckBoxWrapper>
           ))}
         </CheckBoxContainer>
       )}
       {showMaterial && (
-        <CheckBoxContainer style={{ marginLeft: '105px' }}>
+        <CheckBoxContainer
+          style={{ marginLeft: '105px' }}
+          onMouseLeave={disabledShow}
+        >
           {Material.map((e, i) => (
             <CheckBoxWrapper key={i}>
               <CheckBox
                 type="checkbox"
-                id="scales"
+                id={`scales${e}`}
                 name="scales"
                 defaultChecked={material.includes(i)}
                 onClick={() => {
                   onChangeMaterial(i);
                 }}
               />
-              <label htmlFor="scales">{e}</label>
+              <Label htmlFor={`scales${e}`}>{e}</Label>
             </CheckBoxWrapper>
           ))}
         </CheckBoxContainer>

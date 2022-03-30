@@ -76,7 +76,7 @@ src
 ### API 요청 custom hooks로 구현
 
 - parameters가 바뀔 때 마다 API 요청 하도록 설계
-- axios 라이브러리 활용
+- React-Query 라이브러리 활용
 
 ### 가공 방식 필터가 선택될 경우 해당 조건의 카드 출력
 
