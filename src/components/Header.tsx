@@ -130,7 +130,6 @@ export default function Header({ params, setParams, setShowMenu }: IProps) {
       setParams({ ...params });
     }
   }, [material]);
-
   useEffect(() => {
     if (isClick) {
       setParams({

@@ -1,6 +1,6 @@
 ## 배포 주소
 
-<a href="https://gilpop8663.github.io/03_dashboard/">데시보드 페이지</a>
+<a href="https://gilpopcapa.netlify.app/">데시보드 페이지</a>
 
 ## 💻 설치 방법
 
