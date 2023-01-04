@@ -1,4 +1,5 @@
-const BASE_URL = 'https://dry-hollows-03672.herokuapp.com/requests?';
+const BASE_URL =
+  'https://port-0-node-express-3vw25lci3y9wi.gksl2.cloudtype.app/requests?';
 
 export const getData = (
   method?: string,
